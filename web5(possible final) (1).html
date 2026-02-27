@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wealth Leak Audit | Quiet Wealth Collective</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+    .font-body { font-family: 'DM Sans', system-ui, sans-serif; }
+    .checkbox-custom {
+      appearance: none; width: 24px; height: 24px; border: 2px solid currentColor;
+      border-radius: 4px; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0;
+    }
+    .checkbox-custom:checked {
+      background: currentColor;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+    }
+    .phase-card { backdrop-filter: blur(10px); transition: transform 0.3s ease; }
+    .phase-card:hover { transform: translateY(-2px); }
+    .result-card { animation: slideUp 0.5s ease-out; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-ring { transition: stroke-dashoffset 0.5s ease; }
+  </style>
+ </head>
+ <body class="h-full font-body">
+  <div id="app" class="h-full overflow-auto">
+   <div class="min-h-full py-8 px-4 md:px-8">
+    <div class="max-w-3xl mx-auto">
+     <header class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" id="badge-container">
+       <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+       <span class="text-sm font-medium">Quiet Wealth Collective Diagnostic</span>
+      </div>
+      <h1 id="main-title" class="font-display text-4xl md:text-5xl font-bold mb-4 leading-tight">The "Wealth Leak" Audit Checklist</h1>
+      <p id="subtitle" class="text-lg md:text-xl opacity-80 max-w-2xl mx-auto">Identify the Unintended Inhibitors slowing your journey to Financial Freedom.</p>
+     </header>
+
+     <div class="flex items-center justify-center gap-4 mb-10">
+      <div class="relative">
+       <svg class="w-20 h-20 transform -rotate-90">
+         <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="6" fill="none" class="opacity-20" id="progress-bg" />
+         <circle id="progress-ring" cx="40" cy="40" r="35" stroke="currentColor" stroke-width="6" fill="none" stroke-dasharray="220" stroke-dashoffset="220" stroke-linecap="round" class="progress-ring" />
+       </svg>
+       <div class="absolute inset-0 flex items-center justify-center"><span id="progress-text" class="text-xl font-bold">0/12</span></div>
+      </div>
+      <div class="text-left">
+       <p class="font-semibold">Audit Progress</p>
+       <p class="text-sm opacity-70" id="progress-percentage">0% Complete</p>
+      </div>
+     </div>
+
+     <div class="space-y-8" id="checklist-container">
+      <section class="phase-card rounded-2xl p-6 md:p-8" id="phase-1">
+        <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" id="phase-1-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+            <div><h2 class="font-display text-xl md:text-2xl font-bold">Phase 1: Lifestyle Creep</h2><p class="text-sm opacity-70 mt-1">Expenses rising faster than wealth.</p></div></div>
+        <div class="space-y-4">
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="1"><div><span class="font-semibold">Housing Efficiency</span><p class="text-sm opacity-70">Housing costs < 25% of annual take-home pay?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="2"><div><span class="font-semibold">Subscription Audit</span><p class="text-sm opacity-70">Cleared recurring memberships in the last 30 days?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="3"><div><span class="font-semibold">Mobility Burn Rate</span><p class="text-sm opacity-70">Monthly car costs < 10% of monthly income?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="4"><div><span class="font-semibold">Impulse Control</span><p class="text-sm opacity-70">No unplanned "celebratory" purchases in last 3 statements?</p></div></label>
+        </div>
+      </section>
+
+      <section class="phase-card rounded-2xl p-6 md:p-8" id="phase-2">
+        <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" id="phase-2-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg></div>
+            <div><h2 class="font-display text-xl md:text-2xl font-bold">Phase 2: Black Tax Framework</h2><p class="text-sm opacity-70 mt-1">Strategic family support limits.</p></div></div>
+        <div class="space-y-4">
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="5"><div><span class="font-semibold">The Capped Fund</span><p class="text-sm opacity-70">Separate account for support with a strict limit?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="6"><div><span class="font-semibold">The Request Filter</span><p class="text-sm opacity-70">Do you distinguish between "Emergency" and "Lifestyle"?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="7"><div><span class="font-semibold">Boundary Setting</span><p class="text-sm opacity-70">Said "No" to a family financial request in 60 days?</p></div></label>
+        </div>
+      </section>
+
+      <section class="phase-card rounded-2xl p-6 md:p-8" id="phase-3">
+        <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" id="phase-3-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+            <div><h2 class="font-display text-xl md:text-2xl font-bold">Phase 3: Currency Shield</h2><p class="text-sm opacity-70 mt-1">Fighting Naira devaluation.</p></div></div>
+        <div class="space-y-4">
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="8"><div><span class="font-semibold">Asset Exposure</span><p class="text-sm opacity-70">>50% of savings in dollar/hard assets?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="9"><div><span class="font-semibold">Inflation Hedge</span><p class="text-sm opacity-70">Yields currently exceeding the inflation rate?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="10"><div><span class="font-semibold">Automated Wealth</span><p class="text-sm opacity-70">20% of income moves to investment before spending?</p></div></label>
+        </div>
+      </section>
+
+      <section class="phase-card rounded-2xl p-6 md:p-8" id="phase-4">
+        <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" id="phase-4-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div>
+            <div><h2 class="font-display text-xl md:text-2xl font-bold">Phase 4: Strategic Mindset</h2><p class="text-sm opacity-70 mt-1">Habits of the Collective.</p></div></div>
+        <div class="space-y-4">
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="11"><div><span class="font-semibold">The 90-Day Delay</span><p class="text-sm opacity-70">Wait 3 months after a raise before upgrading lifestyle?</p></div></label>
+            <label class="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5"><input type="checkbox" class="checkbox-custom mt-0.5" data-question="12"><div><span class="font-semibold">Asset Pairing</span><p class="text-sm opacity-70">Every new liability is paired with a paying asset?</p></div></label>
+        </div>
+      </section>
+     </div>
+
+     <div class="flex flex-col gap-4 items-center mt-10">
+        <button id="calculate-btn" class="w-full max-w-sm px-8 py-4 rounded-xl font-bold text-lg hidden shadow-xl hover:scale-[1.02] transition-all">Calculate My Results</button>
+        
+        <div id="results-section" class="w-full hidden">
+            <div class="result-card rounded-2xl p-8 text-center border-2" id="results-card">
+                <div id="result-icon" class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"></div>
+                <h3 id="result-title" class="font-display text-2xl md:text-3xl font-bold mb-3"></h3>
+                <p id="result-score" class="text-lg font-semibold mb-4"></p>
+                <p id="result-description" class="opacity-80 mb-8 max-w-lg mx-auto"></p>
+                
+                <div class="bg-black/10 p-6 rounded-xl mb-8">
+                    <p class="text-sm uppercase tracking-wider font-bold mb-4 opacity-60">Consultation Inquiries</p>
+                    <div class="flex flex-col gap-4 items-center">
+                        <a href="https://wa.me/2348062606215?text=Hello%20Quiet%20Wealth%20Collective,%20I%20just%20completed%20the%20Audit%20and%20would%20like%20to%20discuss%20my%20results." class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-[#25D366] text-white flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+                            WhatsApp Us
+                        </a>
+                        <div class="mt-4 text-center">
+                            <p class="text-xs opacity-60 uppercase mb-1">Email Inquiry</p>
+                            <p class="text-lg font-bold select-all">3ccestrading@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+            <button id="reset-btn" class="px-6 py-3 rounded-lg border hidden opacity-50">Reset</button>
+            <button id="download-pdf-btn" class="px-6 py-3 rounded-lg border-2 hidden font-bold">Download Premium Report</button>
+        </div>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const theme = { primary: '#c9a227', surface: '#151d2e', bg: '#0a0f1a', text: '#e8edf5' };
+    let states = {};
+    const total = 12;
+
+    function updateProgress() {
+      const checked = Object.values(states).filter(Boolean).length;
+      document.getElementById('progress-ring').style.strokeDashoffset = 220 - (checked / total) * 220;
+      document.getElementById('progress-text').textContent = `${checked}/${total}`;
+      document.getElementById('progress-percentage').textContent = `${Math.round((checked / total) * 100)}% Complete`;
+      if (checked > 0) {
+          document.getElementById('calculate-btn').classList.remove('hidden');
+          document.getElementById('reset-btn').classList.remove('hidden');
+      }
+    }
+
+    function calculateResults() {
+      const score = Object.values(states).filter(Boolean).length;
+      document.getElementById('results-section').classList.remove('hidden');
+      document.getElementById('download-pdf-btn').classList.remove('hidden');
+      document.getElementById('calculate-btn').classList.add('hidden');
+      
+      const iconBox = document.getElementById('result-icon');
+      const titleBox = document.getElementById('result-title');
+      const scoreBox = document.getElementById('result-score');
+      const descBox = document.getElementById('result-description');
+      
+      if (score >= 10) {
+        titleBox.textContent = '💎 Wealth Builder';
+        descBox.textContent = "Your financial structure is robust. You've plugged most leaks and are ready for high-level asset scaling.";
+        iconBox.innerHTML = '<span class="text-4xl">🏆</span>';
+      } else if (score >= 6) {
+        titleBox.textContent = '⚠️ High-Earner Trap';
+        descBox.textContent = "Income is flowing, but leaks in your strategy are delaying your freedom. Strategic adjustment is needed.";
+        iconBox.innerHTML = '<span class="text-4xl">⚖️</span>';
+      } else {
+        titleBox.textContent = '🚨 Critical Sapa Risk';
+        descBox.textContent = "Immediate intervention required. Your lifestyle is built on high exposure and unintended leaks.";
+        iconBox.innerHTML = '<span class="text-4xl">🚩</span>';
+      }
+      
+      scoreBox.textContent = `Score: ${score}/12 Checks Passed`;
+      document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function generatePDF() {
+      const score = Object.values(states).filter(Boolean).length;
+      const title = document.getElementById('result-title').textContent;
+      const desc = document.getElementById('result-description').textContent;
+      
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <div style="padding: 60px; font-family: sans-serif; border-top: 15px solid #c9a227; color: #1a1a1a;">
+          <h1 style="color: #c9a227; font-size: 28px; margin-bottom: 5px;">WEALTH LEAK AUDIT</h1>
+          <p style="color: #888; text-transform: uppercase; font-size: 12px; margin-bottom: 40px;">Quiet Wealth Collective • Financial Diagnostic</p>
+          
+          <div style="background: #fdfaf0; padding: 30px; border-radius: 8px; border: 1px solid #e5e5e5;">
+            <p style="color: #c9a227; font-weight: bold; font-size: 14px; margin-bottom: 10px;">AUDIT STATUS</p>
+            <h2 style="font-size: 24px; margin: 0 0 5px 0;">${title}</h2>
+            <p style="font-size: 48px; font-weight: bold; color: #c9a227; margin: 0;">${score}/12</p>
+          </div>
+
+          <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">${desc}</p>
+
+          <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h4 style="color: #c9a227; margin-bottom: 15px;">NEXT STEPS</h4>
+            <p style="font-size: 14px;">Schedule a mapping session with the Collective to plug your leaks:</p>
+            <p style="font-size: 15px; margin-top: 15px;"><b>WhatsApp:</b> +234 806 260 6215</p>
+            <p style="font-size: 15px;"><b>Email:</b> 3ccestrading@gmail.com</p>
+          </div>
+          <p style="margin-top: 60px; font-size: 10px; color: #ccc; text-align: center;">Generated on ${new Date().toLocaleDateString()}</p>
+        </div>
+      `;
+      html2pdf().from(el).save(`QuietWealth_Report_${Date.now()}.pdf`);
+    }
+
+    // Initialize UI Colors
+    document.body.style.backgroundColor = theme.bg;
+    document.body.style.color = theme.text;
+    document.getElementById('badge-container').style.backgroundColor = theme.surface;
+    document.getElementById('badge-container').style.color = theme.primary;
+    document.getElementById('progress-ring').style.stroke = theme.primary;
+    document.querySelectorAll('.phase-card').forEach(p => p.style.backgroundColor = theme.surface);
+    document.querySelectorAll('[id$="-icon"]').forEach(i => { i.style.backgroundColor = theme.bg; i.style.color = theme.primary; });
+    document.querySelectorAll('.checkbox-custom').forEach(c => c.style.color = theme.primary);
+    document.getElementById('calculate-btn').style.backgroundColor = theme.primary;
+    document.getElementById('calculate-btn').style.color = theme.bg;
+    document.getElementById('results-card').style.borderColor = theme.primary;
+    document.getElementById('download-pdf-btn').style.borderColor = theme.primary;
+
+    // Events
+    document.querySelectorAll('.checkbox-custom').forEach(c => c.addEventListener('change', (e) => {
+        states[e.target.dataset.question] = e.target.checked;
+        updateProgress();
+    }));
+    document.getElementById('calculate-btn').addEventListener('click', calculateResults);
+    document.getElementById('reset-btn').addEventListener('click', () => location.reload());
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+  </script>
+ </body>
+</html>
